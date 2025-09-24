@@ -1,0 +1,5 @@
+test@example.com
+invalid-email@
+hello.world@gmail.com
+123@domain
+user_name@company.org
