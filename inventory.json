@@ -1,0 +1,21 @@
+import json
+def restock_alert(file_path, threshold):
+    with open(file_path, "r") as f:
+        inventory = json.load(f)
+    return [item["name"] for item in inventory if item["quantity"] < threshold]
+def update_inventory(file_path, updates):
+    with open(file_path, "r") as f:
+        inventory = json.load(f)        
+    for item in inventory:
+        if item["name"] in updates:
+            for key, value in updates[item["name"]].items():
+                item[key] = value    
+    with open(file_path, "w") as f:
+        json.dump(inventory, f, indent=2)        
+if __name__ == "__main__":    
+    inventory = [{"name": "pen", "quantity": 20, "price": 5},{"name": "notebook", "quantity": 5, "price": 30},{"name": "eraser", "quantity": 2, "price": 3}]
+    with open("inventory.json", "w") as f:
+        json.dump(inventory, f, indent=2)
+    print("Items to restock:", restock_alert("inventory.json", 10))
+    update_inventory("inventory.json", {"pen": {"quantity": 50}, "eraser": {"price": 4}})
+    print("Inventory updated. Check inventory.json file.")
